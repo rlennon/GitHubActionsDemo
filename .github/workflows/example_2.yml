@@ -1,0 +1,50 @@
+# Run me as a second example
+name: Example 2
+
+on:
+  # Triggers the workflow on push or pull request events but only for the main or devbranch branches
+  push:
+    branches: [ main, devbranch ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  # This workflow contains a single job called "say-hello-job"
+  say-hello-job:
+    # The type of runner that the job will run on
+    # changed to ubuntu-20.04 to use a specific version of ubuntu
+    runs-on: ubuntu-20.04
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      # https://github.com/marketplace/actions/hello-world-docker-action
+      # with allows me to specify input. who-to-greet is the input variable name specified in the link above
+      - uses: actions/hello-world-docker-action@v2
+        with:
+            who-to-greet: 'Ruth Lennon'
+
+# This workflow contains a single job called "say-hello-job2"
+  say-hello-job2:
+    strategy:
+      matrix:
+        os: [ ubuntu-latest, macos-latest, windows-latest ]
+        
+    # The type of runner that the job will run on each of ubuntu, macos and windows one at a time
+    runs-on: ${{ matrix.os }}
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    # for usage look at https://github.com/marketplace/actions/hello-world-java-action
+    # with variable as previously described. This example has an output variable which can be
+    # accessed using ${{ }} with value
+    # steps.nameOfstep.outputs.variablenamefromfile
+    steps:
+      - uses: actions/checkout@v2
+      - id: step1
+        uses: sormuras/hello-world-java-action@v1
+        with:
+          who-to-greet: 'Ruth the Octocat'
+      - run: echo random-number ${{ steps.step1.outputs.random-number }}
+        shell: bash
