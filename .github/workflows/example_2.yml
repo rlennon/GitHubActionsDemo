@@ -22,7 +22,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       # https://github.com/marketplace/actions/hello-world-docker-action
       # with allows me to specify input. who-to-greet is the input variable name specified in the link above
-      - uses: actions/hello-world-docker-action@v2
+      - uses: actions/hello-world-docker-action@v1
         with:
             who-to-greet: 'Ruth Lennon'
 
